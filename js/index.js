@@ -51,12 +51,24 @@ images.forEach(image =>
 );
 
 // prevent page from refreshing when clicking links
-navLinks.forEach(link =>
+navLinks.forEach(link => {
   link.addEventListener("click", e => {
     e.preventDefault();
     e.stopPropagation();
-  })
-);
+  });
+  // #5 anchors get larger and change style on mouseover
+  link.addEventListener("mouseover", e => {
+    e.target.style.fontSize = "2.4rem";
+    e.target.style.fontWeight = "stronger";
+    e.target.style.color = "pink";
+  });
+  // #6 anchors return to previous style on mouse leave
+  link.addEventListener("mouseleave", e => {
+    e.target.style.fontSize = "1.6rem";
+    e.target.style.color = "#212529";
+    e.target.style.fontWeight = "normal";
+  });
+});
 
 // helper methods
 
