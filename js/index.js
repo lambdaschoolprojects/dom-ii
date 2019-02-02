@@ -4,6 +4,7 @@ const page = document.querySelector("body");
 const navLinks = Array.from(document.querySelector("nav").children);
 const paragraphs = Array.from(document.querySelectorAll("p"));
 const images = Array.from(document.querySelectorAll("img"));
+const header = document.querySelector("header");
 
 let rotations = {};
 let myIntervals = {};
@@ -19,6 +20,7 @@ let eggSequence = [
   "a"
 ];
 let eggCorrectMatches = 0;
+let visible = "1";
 
 // #1, change the color of the logo as the page scrolls
 window.addEventListener("scroll", e => {
@@ -26,7 +28,8 @@ window.addEventListener("scroll", e => {
   const colorCode = 255 * (window.scrollY / 1131);
 
   // change color as the page scrolls
-  logo.style.color = `rgb(${colorCode}, 0, 0)`;
+  logo.style.color = `rgb(${colorCode}, 0, ${255 - colorCode})`;
+  header.style.backgroundColor = `rgb(255, 255, ${255 - colorCode})`;
 });
 
 // #2,  enlarge text when mouseover
@@ -44,7 +47,7 @@ paragraphs.forEach(paragraph =>
 );
 
 // #4, pic spins on click
-images.forEach(image =>
+images.forEach(image => {
   image.addEventListener("click", e => {
     if (!e.target.id) {
       imageIDs++;
@@ -58,8 +61,12 @@ images.forEach(image =>
         rotate(e.target.id);
       }, 2);
     }
-  })
-);
+  });
+  // #8 make images invisible on double click
+  image.addEventListener("dblclick", e => {
+    toggleVisibility(e.target);
+  });
+});
 
 // prevent page from refreshing when clicking links
 navLinks.forEach(link => {
@@ -83,7 +90,6 @@ navLinks.forEach(link => {
 
 // #7 keystroke easter egg
 page.addEventListener("keydown", e => {
-  console.log(e.key);
   if (e.key === eggSequence[eggCorrectMatches]) {
     eggCorrectMatches++;
     if (eggCorrectMatches == eggSequence.length) {
@@ -110,4 +116,10 @@ const rotate = elementId => {
     myIntervals[elementId] = null;
     rotations[elementId] = 0;
   }
+};
+
+const toggleVisibility = element => {
+  if (element.style.opacity === "1" || element.style.opacity === "")
+    element.style.opacity = "0";
+  else element.style.opacity = "1";
 };
