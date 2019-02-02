@@ -5,6 +5,7 @@ const navLinks = Array.from(document.querySelector("nav").children);
 const paragraphs = Array.from(document.querySelectorAll("p"));
 const images = Array.from(document.querySelectorAll("img"));
 const header = document.querySelector("header");
+const h2 = Array.from(document.querySelectorAll("h2"));
 
 let rotations = {};
 let myIntervals = {};
@@ -99,6 +100,16 @@ page.addEventListener("keydown", e => {
   } else {
     eggCorrectMatches = 0;
   }
+});
+
+// #9 & #10, animate h2 on mouseover and mouseleave
+h2.forEach(tag => {
+  tag.addEventListener("mouseover", e => {
+    e.target.style.transform = `rotateZ(180deg)`;
+  });
+  tag.addEventListener("mouseleave", e => {
+    e.target.style.transform = `rotateZ(0deg)`;
+  });
 });
 
 // helper methods
