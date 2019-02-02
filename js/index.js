@@ -6,6 +6,8 @@ const paragraphs = Array.from(document.querySelectorAll("p"));
 const images = Array.from(document.querySelectorAll("img"));
 const header = document.querySelector("header");
 const h2 = Array.from(document.querySelectorAll("h2"));
+const contentPick = document.querySelector(".content-pick");
+const buttons = document.querySelectorAll(".btn");
 
 let rotations = {};
 let myIntervals = {};
@@ -29,14 +31,16 @@ window.addEventListener("scroll", e => {
   const colorCode = 255 * (window.scrollY / 1131);
 
   // change color as the page scrolls
-  logo.style.color = `rgb(${colorCode}, 0, ${255 - colorCode})`;
-  header.style.backgroundColor = `rgb(255, 255, ${255 - colorCode})`;
+  logo.style.color = `rgb(0, ${255 - colorCode}, 0)`;
+  header.style.backgroundColor = `rgb(255, ${255 - colorCode}, ${colorCode})`;
 });
 
 // #2,  enlarge text when mouseover
 paragraphs.forEach(paragraph =>
   paragraph.addEventListener("mouseover", e => {
-    e.target.style.fontSize = "2.4rem";
+    //if (e.target.className != ".content-pick")
+    if (e.target.parentNode.parentNode.className != "content-pick")
+      e.target.style.fontSize = "2.4rem";
   })
 );
 
@@ -112,6 +116,23 @@ h2.forEach(tag => {
   });
 });
 
+// Stopping propagation
+contentPick.addEventListener("click", e => {
+  const red = getRandomNumberInRange(1, 255),
+    blue = getRandomNumberInRange(1, 255),
+    green = getRandomNumberInRange(1, 255);
+
+  e.target.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+});
+
+// contentPick.addEventListener("mouseover", e => {
+//   //e.target.style.fontSize = "1.6rem";
+// });
+
+buttons.forEach(btn => {
+  btn.addEventListener("click", e => e.stopPropagation());
+});
+
 // helper methods
 
 // This function rotates the image 2 degs, called by setInterval with the element ID as the
@@ -133,4 +154,8 @@ const toggleVisibility = element => {
   if (element.style.opacity === "1" || element.style.opacity === "")
     element.style.opacity = "0";
   else element.style.opacity = "1";
+};
+
+const getRandomNumberInRange = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 };
