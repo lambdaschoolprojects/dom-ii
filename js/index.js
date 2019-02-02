@@ -8,6 +8,17 @@ const images = Array.from(document.querySelectorAll("img"));
 let rotations = {};
 let myIntervals = {};
 let imageIDs = 0;
+let eggSequence = [
+  "ArrowUp",
+  "ArrowDown",
+  "ArrowUp",
+  "ArrowDown",
+  "ArrowLeft",
+  "ArrowRight",
+  "b",
+  "a"
+];
+let eggCorrectMatches = 0;
 
 // #1, change the color of the logo as the page scrolls
 window.addEventListener("scroll", e => {
@@ -68,6 +79,20 @@ navLinks.forEach(link => {
     e.target.style.color = "#212529";
     e.target.style.fontWeight = "normal";
   });
+});
+
+// #7 keystroke easter egg
+page.addEventListener("keydown", e => {
+  console.log(e.key);
+  if (e.key === eggSequence[eggCorrectMatches]) {
+    eggCorrectMatches++;
+    if (eggCorrectMatches == eggSequence.length) {
+      alert("Honk honk");
+      eggCorrectMatches = 0;
+    }
+  } else {
+    eggCorrectMatches = 0;
+  }
 });
 
 // helper methods
